@@ -25,7 +25,7 @@ class Cards {
     }
 
     //method for filling a new deck
-    void newDeck() {
+    private void newDeck() {
         char spade = '\u2660';
         char heart = '\u2665';
         char diamond = '\u2666';
@@ -43,7 +43,7 @@ class Cards {
     }
 
     //method for shuffling deck
-    void shuffleDeck() {
+    private void shuffleDeck() {
         String cardStorage;
         Random rand = new Random();
         for (int i = 0; i < deck.length; i++) {
@@ -57,7 +57,7 @@ class Cards {
     }
 
     //method for shuffling deck using arraycopy
-    void shuffleDeck2() {
+    private void shuffleDeck2() {
         String cardStorage;
         Random rand = new Random();
         for (int i = 0; i < deck.length; i++) {
@@ -69,9 +69,10 @@ class Cards {
     }
 
     //method to test a cards frequency at each position
-    void freqTest(int pos, int iter) {
+    private void freqTest(int pos, int iter) {
         String testCondition = deck[pos];
         System.out.println("\nTesting card " + testCondition);
+        shuffleDeck2();
         for (int i = 0; i < deck.length; i++) {
             int count = 0;
             for (int j = 0; j < iter; j++) {
@@ -79,12 +80,37 @@ class Cards {
                 shuffleDeck2();
             }
             double d = ((double) count) / iter * 100;
-            System.out.println("position " + i + ": " + d);
+            System.out.print("position " + i + ": ");
+            System.out.printf("%.3f", d);
+            System.out.println();
         }
     }
 
+    //method to count and store card frequency at each position
+    private void freqTest2(int pos, int iter){
+        String testCondition = deck[pos];
+        int freq[] = new int[deck.length];
+        shuffleDeck2();
+        System.out.println("\nTesting card " + testCondition);
+        for (int i = 0; i < iter; i++) {
+            for (int j = 0; j < deck.length; j++) {
+                if (deck[j] == testCondition) {
+                    freq[j]++;
+                    break;
+                }
+            }
+            shuffleDeck2();
+        }
+        int total = 0;
+        for (int i = 0; i < freq.length; i++) {
+            System.out.println("position "+i+": "+freq[i]);
+            total = total + freq[i];
+        }
+        System.out.print(total);
+    }
+
     //method that prints out the deck order
-    void pDeck() {
+    private void pDeck() {
         for (int i = 0; i < deck.length; i++) {
             if (i % 13 == 0) System.out.println();
             System.out.print(deck[i] + "\t");
@@ -92,7 +118,7 @@ class Cards {
     }
 
     //method to check for duplicate cards
-    void duplicateCheck() {
+    private void duplicateCheck() {
         for (int i = 0; i < deck.length; i++) {
             for (int j = i + 1; j < deck.length; j++) {
                 if (deck[i].equals(deck[j]))
@@ -104,12 +130,13 @@ class Cards {
 
     public static void main(String... args) {
         Cards testDeck = new Cards();
-        testDeck.newDeck();
+        //testDeck.newDeck();
         testDeck.pDeck();
-        System.out.println();
-        testDeck.shuffleDeck2();
-        testDeck.pDeck();
-        testDeck.freqTest(0, 10000);
+        //System.out.println();
+        //testDeck.shuffleDeck2();
+        //testDeck.pDeck();
+        //testDeck.freqTest(0, 1000000);
         //testDeck.duplicateCheck();
+        testDeck.freqTest2(0,100000);
     }
 }
